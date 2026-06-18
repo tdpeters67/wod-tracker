@@ -1,0 +1,61 @@
+@import "tailwindcss";
+
+@theme {
+  --color-bg: #0b0f14;
+  --color-surface: #151b23;
+  --color-surface-2: #1e2730;
+  --color-border: #2a3540;
+  --color-muted: #8a99a8;
+  --color-text: #e7edf3;
+  --color-accent: #f23b3b;
+  --color-accent-hover: #d62f2f;
+  --font-sans: var(--font-geist-sans), ui-sans-serif, system-ui, sans-serif;
+  --font-mono: var(--font-geist-mono), ui-monospace, monospace;
+}
+
+html {
+  color-scheme: dark;
+}
+
+body {
+  background: var(--color-bg);
+  color: var(--color-text);
+  -webkit-tap-highlight-color: transparent;
+}
+
+@layer components {
+  .card {
+    @apply rounded-xl border border-border bg-surface p-4;
+  }
+
+  .btn,
+  .btn-primary,
+  .btn-ghost {
+    @apply inline-flex items-center justify-center gap-2 rounded-lg px-4 py-2.5
+      text-sm font-semibold transition-colors disabled:opacity-50;
+    min-height: 44px;
+  }
+
+  .btn-primary {
+    @apply bg-accent text-white hover:bg-accent-hover;
+  }
+
+  .btn-ghost {
+    @apply border border-border bg-surface-2 text-text hover:border-muted;
+  }
+
+  .input {
+    @apply w-full rounded-lg border border-border bg-surface-2
+      px-3 py-2.5 text-base text-text outline-none
+      placeholder:text-muted focus:border-accent;
+  }
+
+  .label {
+    @apply mb-1.5 block text-sm font-medium text-muted;
+  }
+
+  .chip {
+    @apply inline-flex items-center gap-1 rounded-full border border-border
+      bg-surface-2 px-3 py-1 text-sm;
+  }
+}
