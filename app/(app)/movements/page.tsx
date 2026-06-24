@@ -10,6 +10,8 @@ export default async function MovementsPage() {
     byCategory.set(key, [...(byCategory.get(key) ?? []), m]);
   }
 
+  const categories = [...new Set(movements.map((m) => m.category).filter(Boolean))].sort();
+
   return (
     <div className="space-y-5">
       <h1 className="text-xl font-bold">Movements</h1>
@@ -25,9 +27,15 @@ export default async function MovementsPage() {
           />
           <input
             name="category"
+            list="category-options"
             placeholder="Category (optional)"
             className="input sm:max-w-44"
           />
+          <datalist id="category-options">
+            {categories.map((c) => (
+              <option key={c} value={c!} />
+            ))}
+          </datalist>
           <button type="submit" className="btn-primary">
             Add
           </button>

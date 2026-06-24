@@ -7,8 +7,21 @@ import { movements, workoutMovements } from "@/lib/db/schema";
 
 export async function createMovement(formData: FormData) {
   const name = String(formData.get("name") ?? "").trim();
-  const category = String(formData.get("category") ?? "").trim() || null;
+  const typed = String(formData.get("category") ?? "").trim();
   if (!name) return;
+
+  // Reuse an existing category if it matches case-insensitively, so a typed
+  // "barbell" joins the existing "Barbell" group instead of making a new one.
+  let category: string | null = typed || null;
+  if (category) {
+    const existing = await db
+      .selectDistinct({ category: movements.category })
+      .from(movements);
+    const match = existing.find(
+      (e) => e.category && e.category.toLowerCase() === category!.toLowerCase(),
+    );
+    if (match?.category) category = match.category;
+  }
 
   await db
     .insert(movements)
